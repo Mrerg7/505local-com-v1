@@ -1,0 +1,90 @@
+---
+import '../styles/global.css';
+
+export interface Props {
+  title: string;
+  description: string;
+  ogImage?: string;
+}
+
+const {
+  title,
+  description,
+  ogImage = 'https://imagedelivery.net/placeholder/1200x630/0f172a/2dd4bf',
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- Primary Meta -->
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="505local.com" />
+    <meta property="og:locale" content="en_US" />
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Structured Data: WebSite -->
+    <script type="application/ld+json" is:inline set:html={`{
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "505local.com",
+      "url": "${Astro.site}",
+      "description": "${description}",
+      "potentialAction": {
+        "@type": "SearchAction",
+        "target": "${Astro.site}search?q={search_term_string}",
+        "query-input": "required name=search_term_string"
+      }
+    }`}>
+    </script>
+
+    <!-- Structured Data: Organization (Domain Listing) -->
+    <script type="application/ld+json" is:inline set:html={`{
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "505local.com",
+      "url": "${Astro.site}",
+      "description": "${description}",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "email": "sales@desertrich.com",
+        "contactType": "sales",
+        "availableLanguage": "English"
+      }
+    }`}>
+    </script>
+  </head>
+  <body class="bg-slate-50 text-slate-900 antialiased">
+    <slot />
+  </body>
+</html>

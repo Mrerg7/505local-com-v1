@@ -1,0 +1,75 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --accent: #0D9488;
+  }
+
+  body {
+    @apply bg-slate-50 text-slate-900 antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  .section-header {
+    font-size: 2.75rem;
+    line-height: 1.1;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .premium-gradient {
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+  }
+
+  .modern-card {
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1),
+                box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .modern-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+
+  .value-pill {
+    @apply bg-slate-50 border border-slate-200;
+  }
+
+  .conversion-cta {
+    box-shadow: 0 10px 15px -3px rgb(13 148 136 / 0.3),
+               0 4px 6px -4px rgb(13 148 136 / 0.3);
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .conversion-cta:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgb(13 148 136 / 0.4),
+               0 8px 10px -6px rgb(13 148 136 / 0.4);
+  }
+
+  .use-case-icon {
+    width: 52px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 9999px;
+    background: linear-gradient(145deg, #CCFBF1, #0D9488);
+    color: #0F172A;
+  }
+
+  .local-badge {
+    background: linear-gradient(90deg, #0D9488, #0F766E);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+  }
+
+  .stat-number {
+    font-variant-numeric: tabular-nums;
+  }
+}

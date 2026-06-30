@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://505local.com/sitemap-index.xml

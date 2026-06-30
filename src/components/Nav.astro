@@ -1,0 +1,43 @@
+<nav id="nav" class="bg-white border-b border-slate-200 sticky top-0 z-50 transition-all duration-300">
+  <div class="max-w-screen-2xl mx-auto">
+    <div class="px-8 py-5 flex items-center justify-between">
+      <div class="flex items-center gap-x-3">
+        <a href="/" class="flex items-center gap-x-2.5 cursor-pointer">
+          <div class="w-11 h-11 bg-slate-900 rounded-2xl flex items-center justify-center shadow-inner">
+            <span class="text-white font-display text-2xl font-semibold tracking-tighter">505</span>
+          </div>
+          <div>
+            <span class="font-display text-2xl font-semibold tracking-tighter">Local</span>
+            <span class="text-xs font-mono text-slate-400 tracking-[3px] block -mt-1">.COM</span>
+          </div>
+        </a>
+      </div>
+
+      <!-- Desktop Nav -->
+      <div class="hidden md:flex items-center gap-x-9 text-sm font-medium">
+        <a href="#why" class="text-slate-600 hover:text-slate-900 transition-colors">Why This Domain</a>
+        <a href="#opportunity" class="text-slate-600 hover:text-slate-900 transition-colors">The Opportunity</a>
+        <a href="#value" class="text-slate-600 hover:text-slate-900 transition-colors">Market Value</a>
+        <a href="#acquire" class="text-slate-600 hover:text-slate-900 transition-colors">How to Acquire</a>
+      </div>
+
+      <div class="flex items-center gap-x-3">
+        <button id="navOfferBtn"
+                class="hidden sm:inline-flex items-center px-5 py-2.5 text-sm font-semibold rounded-2xl border border-slate-300 hover:bg-slate-50 transition-all active:scale-[0.985]">
+          Make an Offer
+        </button>
+        <button id="navInquireBtn"
+                class="inline-flex items-center gap-x-2 px-6 py-2.5 text-sm font-semibold bg-slate-900 hover:bg-black text-white rounded-2xl transition-all active:scale-[0.985] shadow-sm">
+          <span>Inquire Now</span>
+        </button>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobileToggle" class="md:hidden w-10 h-10 flex items-center justify-center text-slate-600 hover:text-slate-900" aria-label="Toggle menu">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

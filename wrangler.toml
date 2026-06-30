@@ -1,0 +1,9 @@
+name = "505local-com"
+compatibility_date = "2026-06-01"
+
+[assets]
+directory = "./dist"
+html_handling = "none"
+
+[vars]
+SITE_URL = "https://505local.com"

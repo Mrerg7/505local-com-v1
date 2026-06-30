@@ -1,0 +1,99 @@
+<!-- Offer Modal -->
+<div
+  id="offerModal"
+  class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[100] flex items-center justify-center p-6"
+>
+  <div class="bg-white w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl">
+    <!-- Modal Header -->
+    <div class="px-8 pt-8 pb-5 border-b flex items-center justify-between">
+      <div>
+        <div class="font-display text-2xl tracking-tighter">Make an Offer</div>
+        <div class="text-xs text-slate-500 mt-0.5">505Local.com &bull; Confidential inquiry</div>
+      </div>
+      <button id="modalClose" class="text-slate-400 hover:text-slate-600 w-9 h-9 flex items-center justify-center" aria-label="Close modal">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
+
+    <form id="offerForm" class="p-8 space-y-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+        <div>
+          <label class="block text-xs font-semibold tracking-wider text-slate-600 mb-1.5" for="fullName">FULL NAME</label>
+          <input type="text" id="fullName" required class="w-full border border-slate-300 focus:border-slate-900 rounded-2xl px-5 py-3 text-sm outline-none transition-colors" placeholder="Alex Rivera" />
+        </div>
+        <div>
+          <label class="block text-xs font-semibold tracking-wider text-slate-600 mb-1.5" for="email">EMAIL ADDRESS</label>
+          <input type="email" id="email" required class="w-full border border-slate-300 focus:border-slate-900 rounded-2xl px-5 py-3 text-sm outline-none transition-colors" placeholder="you@company.com" />
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold tracking-wider text-slate-600 mb-1.5" for="phone">PHONE (OPTIONAL &mdash; FOR SERIOUS OFFERS)</label>
+        <input type="tel" id="phone" class="w-full border border-slate-300 focus:border-slate-900 rounded-2xl px-5 py-3 text-sm outline-none transition-colors" placeholder="(505) 555-0199" />
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold tracking-wider text-slate-600 mb-1.5" for="intendedUse">INTENDED USE / VISION</label>
+        <select id="intendedUse" required class="w-full border border-slate-300 focus:border-slate-900 rounded-2xl px-5 py-3 text-sm outline-none transition-colors bg-white">
+          <option value="">Select an option...</option>
+          <option value="Build the 505 Local Platform (news, directory, events, deals, tourism)">Build the 505 Local Platform (news, directory, events, deals, tourism)</option>
+          <option value="Brand my local business or professional practice in New Mexico">Brand my local business or professional practice in New Mexico</option>
+          <option value="Real estate, home services, or contractor branding">Real estate, home services, or contractor branding</option>
+          <option value="Investment / domain portfolio">Investment / domain portfolio</option>
+          <option value="Other (please describe below)">Other (please describe below)</option>
+        </select>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold tracking-wider text-slate-600 mb-1.5" for="offerAmount">YOUR OFFER (USD)</label>
+        <div class="relative">
+          <div class="absolute left-5 top-3.5 text-lg text-slate-400">$</div>
+          <input type="text" id="offerAmount" required placeholder="9500" class="w-full border border-slate-300 focus:border-slate-900 rounded-2xl pl-9 pr-5 py-3 text-sm font-mono outline-none transition-colors" />
+        </div>
+        <div class="text-[10px] text-slate-500 mt-1.5 px-1">All serious offers will be carefully considered. We recommend using escrow.</div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold tracking-wider text-slate-600 mb-1.5" for="message">MESSAGE OR ADDITIONAL DETAILS</label>
+        <textarea id="message" rows="3" class="w-full border border-slate-300 focus:border-slate-900 rounded-3xl px-5 py-3 text-sm outline-none transition-colors resize-y" placeholder="Briefly tell us about your plans for 505Local.com..."></textarea>
+      </div>
+
+      <div class="pt-3">
+        <button type="submit"
+                class="w-full flex items-center justify-center gap-x-2 bg-slate-900 hover:bg-black active:bg-slate-950 transition-colors text-white font-semibold py-4 rounded-2xl text-sm tracking-wider">
+          <span>SUBMIT CONFIDENTIAL OFFER</span>
+        </button>
+
+        <div class="text-center mt-4">
+          <div class="text-xs text-slate-500">Or email directly: <a href="mailto:sales@desertrich.com" class="font-medium text-slate-700 hover:underline">sales@desertrich.com</a></div>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div
+  id="successModal"
+  class="hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-[110] flex items-center justify-center p-6"
+>
+  <div class="bg-white rounded-3xl p-9 text-center max-w-md w-full">
+    <div class="mx-auto w-16 h-16 bg-emerald-100 rounded-full flex items-center justify-center mb-6">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+      </svg>
+    </div>
+    <h3 class="font-display text-3xl tracking-tight">Thank you. Your inquiry was received.</h3>
+    <p class="mt-3 text-slate-600">The owner will personally review your offer and respond within 24&ndash;48 hours. For time-sensitive matters, feel free to follow up directly.</p>
+
+    <div class="mt-8 flex flex-col gap-y-3">
+      <button id="successClose"
+              class="w-full py-3.5 text-sm font-semibold border border-slate-300 hover:bg-slate-50 rounded-2xl transition-colors">
+        Close Window
+      </button>
+      <a href="mailto:sales@desertrich.com" class="text-xs text-slate-500 hover:text-slate-700">Need immediate assistance? Email sales@desertrich.com</a>
+    </div>
+  </div>
+</div>
