@@ -7,7 +7,7 @@ const site = 'https://505local.com';
 export default defineConfig({
   site,
   output: 'static',
-  trailingSlash: 'always',
+  trailingSlash: 'never',
   image: {
     domains: ['imagedelivery.net'],
   },
