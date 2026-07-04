@@ -1,10 +1,20 @@
 name = "505local-com-v1"
 main = "src/worker.ts"
 compatibility_date = "2026-06-01"
+workers_dev = false
+
+[[routes]]
+pattern = "505local.com/*"
+zone_name = "505local.com"
+
+[[routes]]
+pattern = "www.505local.com/*"
+zone_name = "505local.com"
 
 [assets]
 directory = "./dist"
 html_handling = "none"
+not_found_handling = "404-page"
 
 [vars]
 SITE_URL = "https://505local.com"
