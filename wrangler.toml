@@ -13,8 +13,9 @@ zone_name = "505local.com"
 
 [assets]
 directory = "./dist"
-html_handling = "none"
+binding = "ASSETS"
 not_found_handling = "404-page"
+run_worker_first = true
 
 [vars]
 SITE_URL = "https://505local.com"
