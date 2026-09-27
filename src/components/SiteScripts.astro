@@ -1,0 +1,197 @@
+---
+import { SITE } from '../data/site';
+---
+
+<script is:inline define:vars={{ salesEmail: SITE.email }}>
+  (function () {
+    function showModal(id) {
+      var modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+      document.body.style.overflow = 'hidden';
+      setTimeout(function () {
+        var firstInput = modal.querySelector('input, select, textarea');
+        if (firstInput) firstInput.focus();
+      }, 200);
+    }
+
+    function hideModal(id) {
+      var modal = document.getElementById(id);
+      if (!modal) return;
+      modal.classList.remove('flex');
+      modal.classList.add('hidden');
+      document.body.style.overflow = '';
+    }
+
+    window.__505ShowOffer = function () {
+      showModal('offerModal');
+    };
+
+    function handleOfferSubmit(e) {
+      e.preventDefault();
+      var form = e.target;
+      var submitBtn = form.querySelector('button[type="submit"]');
+      if (!submitBtn) return;
+
+      var data = new FormData(form);
+      var name = String(data.get('fullName') || '').trim();
+      var email = String(data.get('email') || '').trim();
+      var phone = String(data.get('phone') || '').trim();
+      var intendedUse = String(data.get('intendedUse') || '').trim();
+      var offerAmount = String(data.get('offerAmount') || '').trim();
+      var message = String(data.get('message') || '').trim();
+
+      var body = [
+        'Name: ' + name,
+        'Email: ' + email,
+        'Phone: ' + (phone || 'n/a'),
+        'Intended use: ' + intendedUse,
+        'Offer (USD): $' + offerAmount,
+        '',
+        message || '(no additional message)',
+      ].join('\n');
+
+      var mailto =
+        'mailto:' +
+        salesEmail +
+        '?subject=' +
+        encodeURIComponent('Offer for 505Local.com — $' + offerAmount) +
+        '&body=' +
+        encodeURIComponent(body);
+
+      var originalText = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Opening email…</span>';
+      window.location.href = mailto;
+
+      setTimeout(function () {
+        hideModal('offerModal');
+        form.reset();
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalText;
+        showModal('successModal');
+      }, 600);
+    }
+
+    function toggleMobileMenu() {
+      var existing = document.querySelector('[data-mobile-nav]');
+      var toggle = document.getElementById('mobileToggle');
+      if (existing) {
+        existing.remove();
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        return;
+      }
+
+      var mobileNav = document.createElement('div');
+      mobileNav.setAttribute('data-mobile-nav', '');
+      mobileNav.className = 'fixed inset-0 bg-black/60 z-[200] lg:hidden';
+      mobileNav.innerHTML =
+        '<div class="bg-white w-[min(20rem,88vw)] h-full p-6 sm:p-8 shadow-2xl flex flex-col" role="dialog" aria-label="Mobile navigation">' +
+        '<div class="flex justify-between items-center mb-8">' +
+        '<div class="flex items-center gap-x-2.5">' +
+        '<div class="w-9 h-9 bg-slate-900 rounded-2xl flex items-center justify-center">' +
+        '<span class="text-white font-display text-xl font-semibold tracking-tighter">505</span></div>' +
+        '<span class="font-display text-2xl font-semibold tracking-tighter">Local</span></div>' +
+        '<button class="w-11 h-11 text-3xl text-slate-400 hover:text-slate-600" id="mobileClose" aria-label="Close menu">&times;</button></div>' +
+        '<div class="flex flex-col gap-y-1 text-lg font-medium">' +
+        '<a href="/#why" class="py-3 px-1 text-slate-700 hover:text-slate-900 border-b border-slate-100">Why This Domain</a>' +
+        '<a href="/#opportunity" class="py-3 px-1 text-slate-700 hover:text-slate-900 border-b border-slate-100">The Opportunity</a>' +
+        '<a href="/#value" class="py-3 px-1 text-slate-700 hover:text-slate-900 border-b border-slate-100">Market Value</a>' +
+        '<a href="/#faq" class="py-3 px-1 text-slate-700 hover:text-slate-900 border-b border-slate-100">FAQ</a>' +
+        '<a href="/#acquire" class="py-3 px-1 text-slate-700 hover:text-slate-900 border-b border-slate-100">How to Acquire</a>' +
+        '<a href="/insights" class="py-3 px-1 text-slate-700 hover:text-slate-900 border-b border-slate-100">Insights</a>' +
+        '</div><div class="mt-auto pt-8">' +
+        '<button id="mobileInquire" class="w-full py-4 min-h-12 bg-slate-900 text-white font-semibold rounded-2xl text-sm">Make an Offer</button>' +
+        '</div></div>';
+
+      document.body.appendChild(mobileNav);
+      if (toggle) toggle.setAttribute('aria-expanded', 'true');
+
+      mobileNav.querySelector('#mobileClose').onclick = function () {
+        mobileNav.remove();
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+      };
+      mobileNav.onclick = function (e) {
+        if (e.target === mobileNav) {
+          mobileNav.remove();
+          if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        }
+      };
+      mobileNav.querySelectorAll('a').forEach(function (link) {
+        link.addEventListener('click', function () {
+          mobileNav.remove();
+          if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        });
+      });
+      mobileNav.querySelector('#mobileInquire').onclick = function () {
+        mobileNav.remove();
+        if (toggle) toggle.setAttribute('aria-expanded', 'false');
+        showModal('offerModal');
+      };
+    }
+
+    function initNavbar() {
+      var nav = document.getElementById('nav');
+      if (!nav) return;
+      var onScroll = function () {
+        if (window.scrollY > 80) {
+          nav.style.boxShadow = '0 1px 0 0 rgb(15 23 42 / 0.06)';
+          nav.style.backgroundColor = 'rgba(255,255,255,0.95)';
+          nav.style.backdropFilter = 'blur(12px)';
+        } else {
+          nav.style.boxShadow = '';
+          nav.style.backgroundColor = '';
+          nav.style.backdropFilter = '';
+        }
+      };
+      window.addEventListener('scroll', onScroll, { passive: true });
+      onScroll();
+    }
+
+    function bindIds(ids) {
+      ids.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('click', function () { showModal('offerModal'); });
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      initNavbar();
+      document.getElementById('mobileToggle')?.addEventListener('click', toggleMobileMenu);
+      bindIds([
+        'navOfferBtn',
+        'navInquireBtn',
+        'heroCta',
+        'finalCta',
+        'footerInquire',
+        'faqCta',
+        'stickyOfferBtn',
+        'acquireOfferBtn',
+      ]);
+
+      document.getElementById('modalClose')?.addEventListener('click', function () { hideModal('offerModal'); });
+      document.getElementById('offerModal')?.addEventListener('click', function (e) {
+        if (e.target.id === 'offerModal') hideModal('offerModal');
+      });
+      document.getElementById('successClose')?.addEventListener('click', function () { hideModal('successModal'); });
+      document.getElementById('successModal')?.addEventListener('click', function (e) {
+        if (e.target.id === 'successModal') hideModal('successModal');
+      });
+      document.getElementById('offerForm')?.addEventListener('submit', handleOfferSubmit);
+
+      document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape') {
+          var successModal = document.getElementById('successModal');
+          var offerModal = document.getElementById('offerModal');
+          if (successModal && !successModal.classList.contains('hidden')) hideModal('successModal');
+          else if (offerModal && !offerModal.classList.contains('hidden')) hideModal('offerModal');
+        }
+      });
+
+      if (new URLSearchParams(window.location.search).get('offer') === '1') {
+        showModal('offerModal');
+      }
+    });
+  })();
+</script>

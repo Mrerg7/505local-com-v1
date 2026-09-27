@@ -1,0 +1,10 @@
+# Prevent indexing of /index.html duplicate URLs
+/index.html
+  X-Robots-Tag: noindex
+/*/index.html
+  X-Robots-Tag: noindex
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin
+  X-Frame-Options: DENY

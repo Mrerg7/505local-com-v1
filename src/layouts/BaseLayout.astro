@@ -1,49 +1,180 @@
 ---
 import '../styles/global.css';
+import StickyCta from '../components/StickyCta.astro';
+import Modals from '../components/Modals.astro';
+import SiteScripts from '../components/SiteScripts.astro';
+import { SITE, type FaqItem } from '../data/site';
 
 export interface Props {
-  title: string;
-  description: string;
+  title?: string;
+  description?: string;
   ogImage?: string;
+  canonical?: string;
+  faq?: FaqItem[];
+  breadcrumb?: { name: string; path: string }[];
+  article?: {
+    title: string;
+    description: string;
+    path: string;
+    datePublished: string;
+    dateModified: string;
+  };
+  offer?: boolean;
   noindex?: boolean;
 }
 
 const {
-  title,
-  description,
-  ogImage = 'https://imagedelivery.net/placeholder/1200x630/0f172a/2dd4bf',
+  title = `${SITE.name} | Premium Domain for Sale • New Mexico 505 Local Authority`,
+  description = SITE.description,
+  ogImage = SITE.ogImage,
+  canonical = new URL(Astro.url.pathname === '/' ? '/' : Astro.url.pathname.replace(/\/$/, ''), SITE.url).toString(),
+  faq,
+  breadcrumb,
+  article,
+  offer = false,
   noindex = false,
 } = Astro.props;
 
-const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const jsonLd: Record<string, unknown>[] = [
+  {
+    '@context': 'https://schema.org',
+    '@type': 'WebSite',
+    '@id': `${SITE.url}/#website`,
+    name: SITE.name,
+    url: SITE.url,
+    description,
+    inLanguage: 'en-US',
+    publisher: { '@id': `${SITE.url}/#organization` },
+  },
+  {
+    '@context': 'https://schema.org',
+    '@type': 'Organization',
+    '@id': `${SITE.url}/#organization`,
+    name: SITE.name,
+    legalName: SITE.legalName,
+    url: SITE.url,
+    logo: {
+      '@type': 'ImageObject',
+      url: `${SITE.url}/favicon.svg`,
+    },
+    description: SITE.description,
+    areaServed: [
+      { '@type': 'City', name: 'Albuquerque' },
+      { '@type': 'City', name: 'Santa Fe' },
+      { '@type': 'City', name: 'Rio Rancho' },
+      { '@type': 'AdministrativeArea', name: 'New Mexico' },
+    ],
+    contactPoint: {
+      '@type': 'ContactPoint',
+      contactType: 'sales',
+      email: SITE.email,
+      availableLanguage: 'English',
+    },
+  },
+];
+
+if (offer) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'Product',
+    name: '505Local.com domain name',
+    description:
+      'Premium geo-local exact-match .com domain for the New Mexico 505 area code. Suited to hyperlocal platforms, directories, tourism brands, and Albuquerque / Santa Fe businesses.',
+    url: SITE.url,
+    category: 'Domain name',
+    image: [ogImage],
+    sku: '505local-com-domain',
+    brand: { '@type': 'Brand', name: SITE.name },
+    offers: {
+      '@type': 'Offer',
+      availability: 'https://schema.org/InStock',
+      itemCondition: 'https://schema.org/NewCondition',
+      url: `${SITE.url}/#acquire`,
+      priceCurrency: 'USD',
+      seller: { '@id': `${SITE.url}/#organization` },
+      description: 'Serious offers considered. Secure escrow transfer recommended.',
+    },
+  });
+}
+
+if (article) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: article.title,
+    description: article.description,
+    url: `${SITE.url}${article.path}`,
+    datePublished: article.datePublished,
+    dateModified: article.dateModified,
+    inLanguage: 'en-US',
+    author: { '@type': 'Organization', name: SITE.name, url: SITE.url },
+    publisher: { '@id': `${SITE.url}/#organization` },
+    mainEntityOfPage: `${SITE.url}${article.path}`,
+    image: [ogImage],
+  });
+}
+
+if (breadcrumb && breadcrumb.length > 1) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumb.map((crumb, index) => ({
+      '@type': 'ListItem',
+      position: index + 1,
+      name: crumb.name,
+      item: `${SITE.url}${crumb.path}`,
+    })),
+  });
+}
+
+if (faq && faq.length > 0) {
+  jsonLd.push({
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    mainEntity: faq.map((item) => ({
+      '@type': 'Question',
+      name: item.question,
+      acceptedAnswer: { '@type': 'Answer', text: item.answer },
+    })),
+  });
+}
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="google-site-verification" content="knZzxBPkvyhERX2AWbalq9KovcouIc2btxi8l3Dj0jo" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="generator" content={Astro.generator} />
+    <meta name="google-site-verification" content={SITE.googleSiteVerification} />
 
-    <!-- Primary Meta -->
     <title>{title}</title>
     <meta name="description" content={description} />
-    {noindex ? (
-      <meta name="robots" content="noindex, nofollow" />
-    ) : (
-      <link rel="canonical" href={canonicalURL} />
-    )}
+    <meta name="author" content={SITE.name} />
+    <meta
+      name="robots"
+      content={noindex
+        ? 'noindex, nofollow'
+        : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'}
+    />
+    {!noindex && <link rel="canonical" href={canonical} />}
+
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/site.webmanifest" />
+    <meta name="theme-color" content={SITE.themeColor} />
+    <meta name="format-detection" content="telephone=no" />
 
     <!-- Open Graph -->
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:type" content={article ? 'article' : 'website'} />
+    <meta property="og:url" content={canonical} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
-    <meta property="og:site_name" content="505local.com" />
+    <meta property="og:image:width" content={String(SITE.ogImageWidth)} />
+    <meta property="og:image:height" content={String(SITE.ogImageHeight)} />
+    <meta property="og:image:alt" content={SITE.ogImageAlt} />
+    <meta property="og:site_name" content={SITE.name} />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter Card -->
@@ -51,47 +182,22 @@ const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={SITE.ogImageAlt} />
 
-    <!-- Fonts -->
+    <!-- Fonts: Space Grotesk (display) + DM Sans (body) — avoid Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Space+Grotesk:wght@500;600;700&display=swap"
       rel="stylesheet"
     />
 
-    <!-- Structured Data: WebSite -->
-    <script type="application/ld+json" is:inline set:html={`{
-      "@context": "https://schema.org",
-      "@type": "WebSite",
-      "name": "505local.com",
-      "url": "${Astro.site}",
-      "description": "${description}",
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": "${Astro.site}search?q={search_term_string}",
-        "query-input": "required name=search_term_string"
-      }
-    }`}>
-    </script>
-
-    <!-- Structured Data: Organization (Domain Listing) -->
-    <script type="application/ld+json" is:inline set:html={`{
-      "@context": "https://schema.org",
-      "@type": "Organization",
-      "name": "505local.com",
-      "url": "${Astro.site}",
-      "description": "${description}",
-      "contactPoint": {
-        "@type": "ContactPoint",
-        "email": "sales@desertrich.com",
-        "contactType": "sales",
-        "availableLanguage": "English"
-      }
-    }`}>
-    </script>
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(jsonLd)} />
   </head>
-  <body class="bg-slate-50 text-slate-900 antialiased">
+  <body class="bg-slate-50 text-slate-900 antialiased min-h-screen flex flex-col">
     <slot />
+    <StickyCta />
+    <Modals />
+    <SiteScripts />
   </body>
 </html>

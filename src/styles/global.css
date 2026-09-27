@@ -5,24 +5,43 @@
 @layer base {
   :root {
     --accent: #0D9488;
+    --brand-ink: #0F172A;
+  }
+
+  html {
+    scroll-behavior: smooth;
   }
 
   body {
     @apply bg-slate-50 text-slate-900 antialiased;
-    font-family: 'Inter', system-ui, sans-serif;
+    font-family: 'DM Sans', system-ui, sans-serif;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
 @layer components {
   .section-header {
-    font-size: 2.75rem;
+    font-size: clamp(1.75rem, 4vw, 2.75rem);
     line-height: 1.1;
     font-weight: 700;
     letter-spacing: -0.025em;
+    font-family: 'Space Grotesk', 'DM Sans', system-ui, sans-serif;
   }
 
   .premium-gradient {
-    background: linear-gradient(135deg, #0F172A 0%, #1E293B 100%);
+    background: linear-gradient(135deg, #0F172A 0%, #1E293B 55%, #134E4A 140%);
   }
 
   .modern-card {
@@ -71,5 +90,68 @@
 
   .stat-number {
     font-variant-numeric: tabular-nums;
+  }
+
+  .prose-insights {
+    @apply text-slate-700 leading-relaxed;
+  }
+
+  .prose-insights h2 {
+    @apply font-display text-2xl sm:text-3xl tracking-tight text-slate-900 mt-10 mb-4;
+  }
+
+  .prose-insights h3 {
+    @apply font-display text-xl tracking-tight text-slate-900 mt-8 mb-3;
+  }
+
+  .prose-insights p {
+    @apply mb-4 text-base sm:text-lg;
+  }
+
+  .prose-insights ul {
+    @apply mb-4 list-disc pl-5 space-y-2;
+  }
+
+  .prose-insights a {
+    @apply text-accent-700 font-medium underline underline-offset-2 hover:text-accent-600;
+  }
+
+  .prose-insights strong {
+    @apply text-slate-900 font-semibold;
+  }
+}
+
+@layer utilities {
+  .animate-fade-up {
+    animation: fadeUp 0.7s cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  .animate-fade-up-delay {
+    animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.12s both;
+  }
+
+  .animate-float-slow {
+    animation: floatSlow 12s ease-in-out infinite;
+  }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  50% {
+    transform: translate(-12px, 10px);
   }
 }

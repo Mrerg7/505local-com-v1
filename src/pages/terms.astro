@@ -1,0 +1,55 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Nav from '../components/Nav.astro';
+import Footer from '../components/Footer.astro';
+import { SITE } from '../data/site';
+
+const breadcrumb = [
+  { name: 'Home', path: '/' },
+  { name: 'Terms', path: '/terms' },
+];
+---
+
+<BaseLayout
+  title={`Terms of Use | ${SITE.name}`}
+  description="Terms of use for the 505Local.com domain sales marketing website."
+  breadcrumb={breadcrumb}
+>
+  <Nav />
+  <main class="flex-1">
+    <section class="max-w-3xl mx-auto px-4 sm:px-8 py-12 sm:py-16 prose-insights">
+      <h1 class="font-display text-4xl tracking-tighter text-slate-900 mb-6">Terms of Use</h1>
+      <p class="text-sm text-slate-500 mb-8">Last updated: September 27, 2026</p>
+
+      <p>
+        By using {SITE.url}, you agree to these terms. The site markets the domain name
+        <strong> 505local.com </strong> for potential sale. Content is informational and does not create a binding
+        offer until price and transfer terms are agreed in writing and escrow is opened.
+      </p>
+
+      <h2>Domain sale</h2>
+      <p>
+        All serious offers are considered. Transactions should use a licensed escrow provider. Transfer timelines
+        and registrar procedures are described on the homepage and may vary by registrar.
+      </p>
+
+      <h2>No warranties</h2>
+      <p>
+        Market statistics, valuation commentary, and use-case examples are opinions based on publicly available
+        information. They are not appraisals, guarantees of search rankings, or promises of business outcomes.
+      </p>
+
+      <h2>Intellectual property</h2>
+      <p>
+        Site design and copy are provided for marketing the domain. Purchase of the domain does not automatically
+        include website content unless agreed separately in writing.
+      </p>
+
+      <h2>Contact</h2>
+      <p>
+        Questions: <a href={`mailto:${SITE.email}`}>{SITE.email}</a>
+      </p>
+    </section>
+  </main>
+  <Footer />
+</BaseLayout>

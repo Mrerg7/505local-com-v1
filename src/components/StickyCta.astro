@@ -1,0 +1,30 @@
+---
+import { SITE } from '../data/site';
+
+const mailto = `mailto:${SITE.email}?subject=${encodeURIComponent('Domain Inquiry: 505Local.com')}`;
+---
+
+<div
+  class="fixed inset-x-0 bottom-0 z-50 border-t border-slate-800/80 bg-slate-950/95 backdrop-blur supports-[backdrop-filter]:bg-slate-950/90 md:hidden pb-[env(safe-area-inset-bottom)]"
+  data-sticky-cta
+>
+  <div class="mx-auto flex max-w-screen-2xl items-center gap-3 px-4 py-3">
+    <div class="min-w-0 flex-1">
+      <p class="truncate text-[10px] font-semibold uppercase tracking-wider text-accent-400">Domain for sale</p>
+      <p class="truncate text-sm font-semibold text-white">505Local.com</p>
+    </div>
+    <button
+      type="button"
+      id="stickyOfferBtn"
+      class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl bg-accent-500 px-5 py-3 text-sm font-semibold text-white hover:bg-accent-400 active:bg-accent-600"
+    >
+      Make Offer
+    </button>
+    <a
+      href={mailto}
+      class="inline-flex min-h-11 shrink-0 items-center justify-center rounded-2xl border border-white/20 px-4 py-3 text-sm font-medium text-white hover:bg-white/10"
+    >
+      Email
+    </a>
+  </div>
+</div>
