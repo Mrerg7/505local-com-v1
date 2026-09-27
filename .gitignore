@@ -24,3 +24,4 @@ pnpm-debug.log*
 
 # local scrape / agent scratch
 .firecrawl/
+agent-tools/
