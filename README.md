@@ -26,11 +26,29 @@ Open [http://127.0.0.1:43125](http://127.0.0.1:43125).
 ## Build & deploy
 
 ```bash
+npm ci
 npm run build
 npx wrangler deploy
 ```
 
-Pushing to `main` on GitHub runs `.github/workflows/deploy.yml` (requires `CLOUDFLARE_API_TOKEN` and `CLOUDFLARE_ACCOUNT_ID` secrets).
+Pushing to `main` runs `.github/workflows/deploy.yml`.
+
+### GitHub Actions secrets required
+
+| Secret | Purpose |
+|--------|---------|
+| `CLOUDFLARE_API_TOKEN` | API token with **Edit Cloudflare Workers** (Account → Workers Scripts: Edit) |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare account ID |
+
+If deploy fails with `Authentication error [code: 10000]` or `Invalid access token [code: 9109]`, recreate the API token in the Cloudflare dashboard and update the repo secret, then re-run the failed workflow:
+
+```bash
+gh workflow run "Deploy Worker" --repo Mrerg7/505local-com-v1
+# or re-run a failed run:
+gh run rerun <run-id> --repo Mrerg7/505local-com-v1 --failed
+```
+
+Live site: https://505local.com/
 
 ## SEO / DA notes
 
